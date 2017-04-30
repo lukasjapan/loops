@@ -5,6 +5,7 @@ GEM
     haml (5.0.0)
       temple (>= 0.8.0)
       tilt
+    rake (0.9.6)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -26,6 +27,7 @@ PLATFORMS
 
 DEPENDENCIES
   haml
+  rake
   rspec
 
 BUNDLED WITH
