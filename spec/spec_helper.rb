@@ -1,6 +1,5 @@
 require 'simplecov'
 require 'coveralls'
-require_relative '../lib/loops'
 
 formatter = [
   SimpleCov::Formatter::HTMLFormatter,
