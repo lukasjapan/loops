@@ -8,3 +8,5 @@ formatter = [
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(formatter)
 SimpleCov.start
+
+require_relative '../lib/loops'
