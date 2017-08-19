@@ -3,10 +3,6 @@ require 'rack/handler/puma'
 
 class Loops
   class Web
-    def initialize
-      @page = nil
-    end
-
     def start
       Rack::Handler::Puma.run(self)
     end
@@ -18,22 +14,31 @@ class Loops
       Loops.logger.info("#{request.request_method} #{request.fullpath}")
       Loops.logger.info("------------------------------------------")
 
-      result = Loops.path.resolve(path: request.path) { |type, object, param| self.send(type, object, param) }
+      begin
+        result = Loops.path.resolve(path: request.path) # { |type, object, param| self.send(type, object, param) }
+        display = request.xhr? ? result : select_page(result)
 
-      display = request.xhr? ? result : @page
-
-      if(result)
-        response = Rack::Response.new(Loops.renderer.render(@page))
-      else
-        response = Rack::Response.new(Loops.renderer.render(nil), 404)
+        status = result ? 200 : 404
+        body = Loops.renderer.render(display)
+      rescue => e
+        status = 500
+        puts e.class.name
+        body = Loops.renderer.render(e)
       end
+
+      response = Rack::Response.new(body, status)
 
       Loops.logger.info("----- Done -----")
 
+      #response.content_type = "text/html"
       response
     end
 
     private
+
+    def select_page(result)
+      DefaultPage.new(result)
+    end
 
     def pre_resolve(object, path)
     end
@@ -45,7 +50,6 @@ class Loops
     end
 
     def post_call(object, result)
-      @page = result if object.nil?
     end
   end
 end

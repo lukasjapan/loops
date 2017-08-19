@@ -2,7 +2,7 @@ class Loops
   def initialize(tags: [])
     @services = {}
 
-    register_service(name: :renderer, service: Renderer.new(env_tags: tags, view_dirs: %w(views)))
+    register_service(name: :renderer, service: Renderer.new(env_tags: tags, view_dirs: %w(views/web/bootstrap4)))
     register_service(name: :path, service: Path.new)
     register_service(name: :logger, service: Logger.new(STDERR))
   end

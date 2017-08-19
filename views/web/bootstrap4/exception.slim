@@ -1,0 +1,9 @@
+- extends '_bootstrap4'
+
+- block :body do
+  h1 Whoops!
+  p An exception occured.
+
+  h2 #{object.to_s}
+
+  pre #{object.backtrace.join("\n")}

@@ -1,0 +1,10 @@
+- extends '_bootstrap4'
+
+- block :body do
+  h1 Welcome to Loops!
+
+  p You are looking at the default page and your request yielded a <em>#{content.class.name}</em> object.
+
+  h2 Content
+
+  = render(content)
