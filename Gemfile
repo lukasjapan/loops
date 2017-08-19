@@ -1,10 +1,13 @@
 source 'https://rubygems.org'
 
 gem 'config'
+gem 'require_all'
 gem 'haml'
+gem 'activesupport'
 
 group 'web' do
-  gem 'webrick'
+  gem 'puma'
+  gem 'rack'
 end
 
 group :test do
