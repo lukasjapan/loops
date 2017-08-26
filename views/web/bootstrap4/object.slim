@@ -1,2 +1,31 @@
-pre =object.inspect
-pre =object.instance_variables
+.card
+  .card-header
+    strong<> =object.class.name
+    em 0x#{(object.__id__ << 1).to_s(16)}
+  .card-body
+    p.card-text
+      dl
+        dt Class/Module hierarchy
+        dd
+          - object.class.ancestors.each do |c|
+            - if c.is_a?(Class)
+              span.badge.badge-primary<> =c
+            - else
+              span.badge.badge-info<> =c
+        dt Instance Variables:
+        dd
+          - if object.instance_variables.any?
+            - object.instance_variables.each do |v|
+              span.badge.badge-warning<> =v
+          - else
+            span.badge.badge-light none
+        dt Methods:
+        dd
+          - object.methods.each do |m|
+            - if object.method(m).source_location
+              span.badge.badge-success<> title="#{object.method(m).source_location.to_s}" data-toggle="tooltip" data-placement="top" =m
+            - else
+              span.badge.badge-secondary<> =m
+        dt Inspect:
+        dd
+          code =object.inspect

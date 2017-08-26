@@ -1,0 +1,18 @@
+- unless object.paths.empty?
+  table.table.table-bordered.table-sm
+    tbody
+      - object.flattened_paths.each do |paths, klass|
+        tr
+          td
+            span =Loops.request.path
+            - paths.each do |type, path|
+              - if type == :exact
+                span.text-danger =path
+              - elsif type == :string
+                span.text-primary =path
+              - elsif type == :quickregexp
+                span.text-warning =path
+              - elsif type == :regexp
+                span.text-success =path
+          td
+            span.badge.badge-primary =klass.name

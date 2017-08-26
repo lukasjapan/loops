@@ -10,6 +10,8 @@ class Loops
     def call(env)
       request = Rack::Request.new(env)
 
+      Loops.register_service(name: :request, service: request)
+
       Loops.logger.info("----- A new web request has arrived! -----")
       Loops.logger.info("#{request.request_method} #{request.fullpath}")
       Loops.logger.info("------------------------------------------")

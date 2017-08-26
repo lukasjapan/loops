@@ -19,6 +19,8 @@ class Loops
         binding
       end
 
+      # TODO: include these by a module
+
       def extends(filename)
         raise "Already extending from template: #{@extending}" if @extending
         raise "Call extending before blocks." if @extending == false
@@ -33,12 +35,13 @@ class Loops
         resolve_block(name) if @extending == false
       end
 
-      def render(object)
-        Loops.renderer.render(object, tags: @tags).html_safe
+      def render(object, tags = [])
+        tags = [ tags ] unless tags.is_a?(Enumerable)
+        Loops.renderer.render(object, tags: @tags + tags).html_safe
       end
 
       def parent
-        raise "Please only call from a block." unless @current_parent
+        raise "Please call from a block only." unless @current_parent
         @current_parent.call
       end
 

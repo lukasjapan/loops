@@ -1,0 +1,17 @@
+.card
+  .card-body
+    span Path Colors:
+    span.badge.badge-danger<> Exact Match
+    span.badge.badge-primary<> String
+    span.badge.badge-warning<> Preferred Regexp
+    span.badge.badge-success<> Regexp
+    ul.nav.nav-tabs id="myTab" role="tablist"
+      li.nav-item
+        a.nav-link.active id="flat-tab" data-toggle="tab" href="#flat" role="tab" aria-controls="flat" aria-expanded="true" Flat
+      li.nav-item
+        a.nav-link id="nested-tab" data-toggle="tab" href="#nested" role="tab" aria-controls="nested" Nested
+    .tab-content id="myYab"
+      .tab-pane.active.show id="flat" role="tabpanel" aria-labelledby="flat-tab"
+        = render(object, 'flat')
+      .tab-pane id="nested" role="tabpanel" aria-labelledby="nested-tab"
+        = render(object, 'nested')

@@ -18,7 +18,7 @@ class Loops
       end
     end
 
-    def register(object:, path:, exact: false, regexp: false, &block)
+    def register(object:, path:, type:, exact: false, regexp: false, &block)
       raise ArgumentError, 'Block needs to be given when registering a path.' unless block_given?
 
       if path.is_a?(Regexp)
@@ -35,7 +35,7 @@ class Loops
         matcher = StringMatcher.new(path.to_s)
       end
 
-      @paths[object][key].push([matcher, block])
+      @paths[object][key].push([matcher, block, type])
 
       matcher
     end
@@ -104,7 +104,7 @@ class Loops
       # if marked as regexp string, return immediately
       return matcher, proc if @paths[klass][:quickregexp].map(&:first).include?(matcher)
 
-      # check regexs
+      # check regexps
       rmatcher, rproc = @paths[klass][:regexp].find do |matcher, _|
         matcher.match(path)
       end
@@ -167,15 +167,17 @@ class Loops
 
   module Pathable
     # Registers a path with the current object
-    def path(path, &block)
-      Loops.path.register(object: self, path: path, &block)
+    def path(path, type, constructor = :new, &block)
+      proc = block_given? ? block : Proc.new { type.send(constructor) }
+      Loops.path.register(object: self, path: path, type: type, &proc)
     end
 
-    def root_path(path = Path::SEPARATOR, exact: false, regexp: false, &block)
+    def root_path(path = Path::SEPARATOR, type = nil, constructor = :new, exact: false, regexp: false, &block)
       # use the passed block or create itself if none is given
       klass = self
-      proc = block_given? ? block : Proc.new { klass.new }
-      Loops.path.register(object: NilClass, path: path, exact: exact, regexp: regexp, &proc)
+      type = block_given? ? type : klass
+      proc = block_given? ? block : Proc.new { klass.send(constructor) }
+      Loops.path.register(object: NilClass, path: path, type: type, exact: exact, regexp: regexp, &proc)
     end
 
     def resolve_path(path:, data: nil)

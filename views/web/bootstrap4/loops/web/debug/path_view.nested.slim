@@ -1,0 +1,18 @@
+- unless object.paths.empty?
+  table.table.table-bordered.table-sm
+    tbody
+      - object.paths.each do |path, path_view|
+        tr
+          td
+            span =Loops.request.path
+            - if path[0] == :exact
+              span.text-danger #{"=" + path[1]}
+            - elsif path[0] == :string
+              span.text-primary =path[1]
+            - elsif path[0] == :quickregexp
+              span.text-warning =path[1]
+            - elsif path[0] == :regexp
+              span.text-success =path[1]
+          td
+            span.badge.badge-primary =path_view[0].name
+          td =render(path_view[1])

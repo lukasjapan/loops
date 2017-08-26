@@ -4,9 +4,7 @@ require_relative '../lib/bootstrap'
 class Test < Loops::Object
   root_path
 
-  path 'time' do
-    @time = DateTime.now
-  end
+  path 'time', DateTime, :now
 end
 
 Loops::Web.new.start

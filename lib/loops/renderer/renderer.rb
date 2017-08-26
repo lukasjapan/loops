@@ -42,7 +42,7 @@ class Loops
     # @todo Make this performant (Tree struct? Cache?)
     def select_template(object:, tags:)
       # get all classnames that can be used with templates
-      target = object.is_a?(::Object) ? object.class : object
+      target = object.is_a?(::Class) ? object : object.class
       names = target.ancestors.select { |a| a.is_a?(Class) }.map(&:to_s).map(&:underscore).map(&:to_sym)
       names.push(:class) if object.is_a?(Class)
 

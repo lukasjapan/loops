@@ -3,8 +3,20 @@
 - block :body do
   h1 Welcome to Loops!
 
-  p You are looking at the default page and your request yielded a <em>#{content.class.name}</em> object.
+  p You are looking at the debug page.
 
   h2 Content
 
+  p Your request yielded a <span class="badge badge-primary">#{content.class.name}</span> instance.
+
   = render(content)
+
+  h2 Paths
+
+  p All followable paths on the object.
+
+  = render(Loops::Web::Debug::PathView.new(content.class))
+
+  h2 Request
+
+  = render(Loops.request)
